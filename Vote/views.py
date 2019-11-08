@@ -16,8 +16,8 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
-        # return Question.objects.order_by('-pub_date')[:5]
-        return Question.objects.filter(pub_date=timezone.now()).order_by('-pub_date')[:5]
+        return Question.objects.order_by('-pub_date')[:5]
+        # return Question.objects.filter(pub_date=timezone.now()).order_by('-pub_date')[:5]
 
 
 class DetailView(generic.DetailView):
@@ -39,7 +39,7 @@ def index(request):
     context = {'latest_question_list':latest_question_list,}
     # output = ', '.join([q.question_text for q in latest_question_list])
     # return HttpResponse(template.render(context,request))
-    return render(request,'Vote/index.html', context)
+    return render(request, 'Vote/index.html', context)
 
 
 def detail(request, question_id):
@@ -58,7 +58,7 @@ def vote(request, question_id):
     try:
         select_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
-        return render(request,'Vote/detail.html', {
+        return render(request, 'Vote/detail.html', {
             'question':question,
             'error_messgae': "You didn't select a choice.",
         })
